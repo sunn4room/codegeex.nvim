@@ -94,16 +94,17 @@ M.complete = function()
         return
       end
       if response.status ~= 200 then
-        vim.notify("CodegeeX " .. tostring(response.status), vim.log.levels
-          .ERROR)
+        vim.notify(
+          "CodegeeX " .. tostring(response.status),
+          vim.log.levels.ERROR
+        )
         return
       end
       local text = vim.fn.json_decode(response.body).inline_completions[1].text
       local lines = {}
-      for line in (text .. "\n"):gmatch("([^\n]*)\n?") do
+      for line in (text .. "\n"):gmatch("([^\n]*)\n") do
         table.insert(lines, line)
       end
-      lines[#lines] = nil
       lines[1] = line_prefix .. lines[1]
       lines[#lines] = lines[#lines] .. line_suffix
       local virt_lines = vim.tbl_map(function(line)
@@ -122,6 +123,13 @@ M.confirm = function()
   local extmark = vim.api.nvim_buf_get_extmark_by_id(0, ns, 1,
     { details = true, })
   if #extmark == 3 then
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    local row = cursor[1]
+    local lines = vim.tbl_map(function(virt_line)
+      return virt_line[1][1]
+    end, extmark[3].virt_lines)
+    local new_row = row + #lines - 1
+    local new_col = #lines[#lines]
     vim.api.nvim_buf_set_lines(
       0,
       extmark[1],
@@ -132,6 +140,7 @@ M.confirm = function()
       end, extmark[3].virt_lines)
     )
     vim.api.nvim_buf_del_extmark(0, ns, 1)
+    vim.api.nvim_win_set_cursor(0, { new_row, new_col, })
   end
 end
 
