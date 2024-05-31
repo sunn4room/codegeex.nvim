@@ -5,7 +5,8 @@ Neovim plugin for CodegeeX v3
 ```lua
 -- lazy.nvim spec
 {
-  "sunn4room/codegeex.nvim"
+  "sunn4room/codegeex.nvim",
+  -- url = "https://gitee.com/sunn4room/codegeex.nvim",
   keys = {
     {
       "<F1>",
