@@ -86,7 +86,7 @@ M.complete = function()
           prefix = prefix,
           suffix = suffix,
         },
-      }, },
+      } },
     },
     callback = vim.schedule_wrap(function(response)
       if response.exit ~= 0 then
@@ -108,7 +108,7 @@ M.complete = function()
       lines[1] = line_prefix .. lines[1]
       lines[#lines] = lines[#lines] .. line_suffix
       local virt_lines = vim.tbl_map(function(line)
-        return { { line, options.highlight, }, }
+        return { { line, options.highlight } }
       end, lines)
       vim.api.nvim_buf_set_extmark(0, ns, row, col, {
         id = 1,
@@ -120,8 +120,10 @@ M.complete = function()
 end
 
 M.confirm = function()
-  local extmark = vim.api.nvim_buf_get_extmark_by_id(0, ns, 1,
-    { details = true, })
+  local extmark = vim.api.nvim_buf_get_extmark_by_id(
+    0, ns, 1,
+    { details = true }
+  )
   if #extmark == 3 then
     local cursor = vim.api.nvim_win_get_cursor(0)
     local row = cursor[1]
@@ -140,7 +142,7 @@ M.confirm = function()
       end, extmark[3].virt_lines)
     )
     vim.api.nvim_buf_del_extmark(0, ns, 1)
-    vim.api.nvim_win_set_cursor(0, { new_row, new_col, })
+    vim.api.nvim_win_set_cursor(0, { new_row, new_col })
   end
 end
 
