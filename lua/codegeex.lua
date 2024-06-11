@@ -50,7 +50,7 @@ end
 
 M.complete = function()
   local ft = vim.opt_local.filetype:get()
-  local lang = options.ft2lang[ft] or ft
+  local lang = options.ft2lang[ft] or "text"
   local path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":.")
   local cursor = vim.api.nvim_win_get_cursor(0)
   local row = cursor[1] - 1
