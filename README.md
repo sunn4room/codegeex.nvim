@@ -1,3 +1,5 @@
+> Please use fittencode.nvim
+
 # codegeex.nvim
 
 Neovim plugin for CodegeeX v3
