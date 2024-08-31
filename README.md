@@ -1,4 +1,4 @@
-> Please use fittencode.nvim
+> Please use sunn4room/nvim-cmp-codegeex
 
 # codegeex.nvim
 
